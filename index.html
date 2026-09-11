@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Étude de faisabilité – zone de chalandise</title>
+<style>
+  :root{
+    --paper:#faf8f3;
+    --paper-alt:#f1ede3;
+    --ink:#20281f;
+    --ink-soft:#4c5346;
+    --line:#d8d0bd;
+    --teal:#2f6f62;
+    --teal-dark:#1f4d43;
+    --teal-tint:#e7f1ee;
+    --clay:#c96a3a;
+    --clay-tint:#f7e9df;
+    --ok:#3b7a3f;
+    --ok-tint:#e9f3e8;
+    --radius:10px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.55;
+  }
+  .wrap{max-width:800px;margin:0 auto;padding:0 20px 80px;}
+  header.top{
+    background:var(--teal-dark);
+    color:#f4f1e8;
+    padding:36px 20px 30px;
+    margin-bottom:34px;
+  }
+  header.top .wrap{padding:0;}
+  .eyebrow-line{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:0.85rem;
+    color:#bfe0d5;
+    margin-bottom:10px;
+  }
+  .eyebrow-line .dot{width:6px;height:6px;border-radius:50%;background:var(--clay);}
+  h1{
+    font-family:Georgia,"Iowan Old Style","Times New Roman",serif;
+    font-size:1.7rem;
+    margin:0 0 10px;
+    line-height:1.25;
+    font-weight:600;
+  }
+  header.top p{margin:0;color:#d9e6de;max-width:60ch;font-size:0.98rem;}
+
+  .contexte{
+    background:var(--paper-alt);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:20px 22px;
+    margin-bottom:28px;
+  }
+  .contexte h2{
+    font-family:Georgia,serif;
+    font-size:1.05rem;
+    margin:0 0 10px;
+    color:var(--teal-dark);
+  }
+  .contexte p{margin:0 0 10px;color:var(--ink-soft);}
+  .contexte p:last-child{margin-bottom:0;}
+
+  .doc{
+    border:1px solid var(--line);
+    border-left:4px solid var(--teal);
+    border-radius:var(--radius);
+    padding:18px 22px;
+    margin-bottom:28px;
+    background:#fff;
+  }
+  .doc h2{
+    font-size:0.78rem;
+    letter-spacing:0.02em;
+    color:var(--teal-dark);
+    margin:0 0 12px;
+    font-weight:700;
+  }
+  .doc dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:6px 14px;}
+  .doc dt{color:var(--ink-soft);font-size:0.93rem;}
+  .doc dd{margin:0;font-weight:600;font-size:0.93rem;}
+
+  .memo{
+    background:var(--teal-tint);
+    border-radius:var(--radius);
+    padding:18px 22px;
+    margin-bottom:32px;
+  }
+  .memo h2{
+    font-size:0.78rem;
+    color:var(--teal-dark);
+    margin:0 0 10px;
+    font-weight:700;
+  }
+  .memo ul{margin:0;padding-left:18px;}
+  .memo li{margin-bottom:6px;font-size:0.93rem;}
+  .memo code{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:5px;
+    padding:1px 6px;
+    font-size:0.87rem;
+    color:var(--teal-dark);
+  }
+
+  section.exo{
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:24px 22px 22px;
+    margin-bottom:26px;
+    background:#fff;
+  }
+  .exo-tag{
+    display:inline-block;
+    background:var(--clay-tint);
+    color:var(--clay);
+    font-size:0.78rem;
+    font-weight:700;
+    padding:3px 10px;
+    border-radius:20px;
+    margin-bottom:12px;
+  }
+  .exo h3{
+    font-family:Georgia,serif;
+    font-size:1.2rem;
+    margin:0 0 14px;
+  }
+
+  .grandeur{
+    font-size:0.9rem;
+    color:var(--ink-soft);
+    border-left:3px solid var(--line);
+    padding-left:12px;
+    margin:16px 0 20px;
+  }
+  .grandeur strong{color:var(--ink);}
+
+  table.calc{
+    width:100%;
+    border-collapse:collapse;
+    margin:18px 0 6px;
+    font-size:0.92rem;
+  }
+  table.calc th{
+    background:var(--paper-alt);
+    text-align:left;
+    padding:9px 10px;
+    border:1px solid var(--line);
+    font-size:0.85rem;
+  }
+  table.calc td{
+    border:1px solid var(--line);
+    padding:6px 8px;
+    vertical-align:middle;
+  }
+  table.calc tr.given td.label{color:var(--ink-soft);}
+  table.calc tr.given td.val{font-weight:600;}
+  table.calc td.label{width:34%;}
+  table.calc td.calc-cell{width:38%;}
+  table.calc td.res-cell{width:28%;}
+  table.calc tr.total td{font-weight:700;background:#fbf6ee;}
+
+  table.calc input{
+    width:100%;
+    border:1px solid var(--line);
+    border-radius:5px;
+    padding:5px 7px;
+    font-size:0.9rem;
+    font-family:inherit;
+    color:var(--ink);
+    background:#fffdf9;
+  }
+  table.calc input:focus{outline:2px solid var(--teal);outline-offset:1px;}
+
+  textarea.concl{
+    width:100%;
+    min-height:70px;
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:10px 12px;
+    font-family:inherit;
+    font-size:0.95rem;
+    color:var(--ink);
+    background:#fffdf9;
+    resize:vertical;
+  }
+  textarea.concl:focus{outline:2px solid var(--teal);outline-offset:1px;}
+
+  details.correction{
+    margin-top:18px;
+    border-top:1px dashed var(--line);
+    padding-top:14px;
+  }
+  details.correction summary{
+    cursor:pointer;
+    font-weight:600;
+    color:var(--teal-dark);
+    list-style:none;
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+  }
+  details.correction summary::-webkit-details-marker{display:none;}
+  details.correction summary::before{
+    content:"▸";
+    display:inline-block;
+    transition:transform 0.15s ease;
+  }
+  details.correction[open] summary::before{transform:rotate(90deg);}
+
+  .corr-body{margin-top:14px;}
+  .corr-line{
+    background:var(--ok-tint);
+    border-radius:6px;
+    padding:8px 12px;
+    margin-bottom:8px;
+    font-size:0.9rem;
+  }
+  .corr-line code{
+    display:block;
+    color:var(--teal-dark);
+    font-size:0.87rem;
+    margin-bottom:3px;
+  }
+  .corr-line .resultat{font-weight:700;color:var(--ok);}
+
+  .corr-final{
+    margin-top:16px;
+    padding:14px 16px;
+    background:var(--clay-tint);
+    border-radius:8px;
+    font-size:0.95rem;
+  }
+  .corr-final strong{color:var(--clay);}
+
+  footer{
+    text-align:center;
+    color:var(--ink-soft);
+    font-size:0.82rem;
+    margin-top:40px;
+  }
+
+  @media (max-width:560px){
+    table.calc{font-size:0.82rem;}
+    table.calc td.label{width:auto;}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="eyebrow-line"><span class="dot"></span>BTS – pôle conseiller et vendre</div>
+    <h1>Étude de faisabilité d'un point de vente à Abbeville</h1>
+    <p>Estimation du chiffre d'affaires prévisionnel d'une zone de chalandise et décision d'ouverture.</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="contexte">
+    <h2>Mise en situation</h2>
+    <p>Vous effectuez votre stage dans un magasin de jouets franchisé. Le franchisé souhaite ouvrir un nouveau point de vente à Abbeville (80100) et vous confie l'étude de faisabilité du projet.</p>
+    <p>Pour être viable, ce futur magasin doit générer un chiffre d'affaires annuel d'au moins <strong>1 100 000 €</strong>. Le franchisé vous transmet quelques indicateurs issus d'une étude de marché.</p>
+  </div>
+
+  <div class="doc">
+    <h2>DONNÉES DE L'ÉTUDE DE MARCHÉ</h2>
+    <dl>
+      <dt>Population de la zone de chalandise</dt><dd>70 000 habitants</dd>
+      <dt>Nombre moyen d'habitants par ménage</dt><dd>2,8</dd>
+      <dt>Nombre moyen d'enfants par ménage</dt><dd>1,2</dd>
+      <dt>Dépense commercialisable en jouets, par enfant</dt><dd>240 €</dd>
+      <dt>Taux d'évasion commerciale</dt><dd>12 % des dépenses commercialisables</dd>
+      <dt>Taux d'attraction commerciale</dt><dd>5 % des dépenses commercialisables</dd>
+      <dt>Part des dépenses captée par la concurrence</dt><dd>85 %</dd>
+    </dl>
+  </div>
+
+  <div class="memo">
+    <h2>MÉMO – FORMULES UTILES</h2>
+    <ul>
+      <li><code>Nombre de ménages = population ÷ nombre moyen d'habitants par ménage</code></li>
+      <li><code>Nombre d'enfants = nombre de ménages × nombre moyen d'enfants par ménage</code></li>
+      <li><code>Dépenses commercialisables = nombre d'enfants × dépense par enfant</code></li>
+      <li><code>Évasion = dépenses commercialisables × taux d'évasion</code></li>
+      <li><code>Dépenses captées = dépenses commercialisables × taux d'attraction</code></li>
+      <li><code>Dépenses sur la zone = dépenses commercialisables – évasion + dépenses captées</code></li>
+      <li><code>Montant vers la concurrence = dépenses sur la zone × part de la concurrence</code></li>
+      <li><code>CA prévisionnel = dépenses sur la zone – montant vers la concurrence</code></li>
+    </ul>
+  </div>
+
+  <section class="exo">
+    <span class="exo-tag">Question 1</span>
+    <h3>Calculez les indicateurs intermédiaires de la zone de chalandise</h3>
+
+    <div class="grandeur">
+      <strong>Ordre de grandeur : </strong>70 000 habitants pour 2,8 personnes par ménage donnent environ 25 000 ménages. Le chiffre d'affaires final sera nettement inférieur au montant brut des dépenses commercialisables, une fois l'évasion et la part captée par la concurrence retirées.
+    </div>
+
+    <table class="calc">
+      <tr><th>Indicateur</th><th>Détail du calcul</th><th>Résultat</th></tr>
+
+      <tr class="given"><td class="label">Nombre d'habitants de la zone</td><td class="val" colspan="1">donnée de l'énoncé</td><td class="val">70 000</td></tr>
+      <tr class="given"><td class="label">Nombre moyen d'habitants par ménage</td><td class="val">donnée de l'énoncé</td><td class="val">2,8</td></tr>
+
+      <tr><td class="label">Nombre de ménages</td>
+        <td class="calc-cell"><input type="text" placeholder="votre calcul"></td>
+        <td class="res-cell"><input type="text" placeholder="résultat"></td></tr>
+
+      <tr class="given"><td class="label">Nombre moyen d'enfants par ménage</td><td class="val">donnée de l'énoncé</td><td class="val">1,2</td></tr>
+
+      <tr><td class="label">Nombre d'enfants de la zone</td>
+        <td class="calc-cell"><input type="text" placeholder="votre calcul"></td>
+        <td class="res-cell"><input type="text" placeholder="résultat"></td></tr>
+
+      <tr class="given"><td class="label">Dépense moyenne commercialisable en jouets, par enfant</td><td class="val">donnée de l'énoncé</td><td class="val">240 €</td></tr>
+
+      <tr><td class="label">Dépenses commercialisables en jouets</td>
+        <td class="calc-cell"><input type="text" placeholder="votre calcul"></td>
+        <td class="res-cell"><input type="text" placeholder="résultat"></td></tr>
+
+      <tr class="given"><td class="label">Taux d'évasion</td><td class="val">donnée de l'énoncé</td><td class="val">12 %</td></tr>
+
+      <tr><td class="label">Évasion</td>
+        <td class="calc-cell"><input type="text" placeholder="votre calcul"></td>
+        <td class="res-cell"><input type="text" placeholder="résultat"></td></tr>
+
+      <tr class="given"><td class="label">Taux d'attraction des dépenses</td><td class="val">donnée de l'énoncé</td><td class="val">5 %</td></tr>
+
+      <tr><td class="label">Montant des dépenses captées</td>
+        <td class="calc-cell"><input type="text" placeholder="votre calcul"></td>
+        <td class="res-cell"><input type="text" placeholder="résultat"></td></tr>
+
+      <tr><td class="label">Dépenses sur la zone</td>
+        <td class="calc-cell"><input type="text" placeholder="votre calcul"></td>
+        <td class="res-cell"><input type="text" placeholder="résultat"></td></tr>
+
+      <tr class="given"><td class="label">Taux de dépenses vers la concurrence</td><td class="val">donnée de l'énoncé</td><td class="val">85 %</td></tr>
+
+      <tr><td class="label">Montant des dépenses vers la concurrence</td>
+        <td class="calc-cell"><input type="text" placeholder="votre calcul"></td>
+        <td class="res-cell"><input type="text" placeholder="résultat"></td></tr>
+
+      <tr class="total"><td class="label">CA prévisionnel</td>
+        <td class="calc-cell"><input type="text" placeholder="votre calcul"></td>
+        <td class="res-cell"><input type="text" placeholder="résultat"></td></tr>
+    </table>
+
+    <details class="correction">
+      <summary>Voir la correction</summary>
+      <div class="corr-body">
+        <div class="corr-line"><code>Nombre de ménages = 70 000 ÷ 2,8</code>Nombre de ménages = <span class="resultat">25 000</span></div>
+        <div class="corr-line"><code>Nombre d'enfants = 25 000 × 1,2</code>Nombre d'enfants = <span class="resultat">30 000</span></div>
+        <div class="corr-line"><code>Dépenses commercialisables = 30 000 × 240</code>Dépenses commercialisables = <span class="resultat">7 200 000 €</span></div>
+        <div class="corr-line"><code>Évasion = 7 200 000 × 0,12</code>Évasion = <span class="resultat">864 000 €</span></div>
+        <div class="corr-line"><code>Dépenses captées = 7 200 000 × 0,05</code>Dépenses captées = <span class="resultat">360 000 €</span></div>
+        <div class="corr-line"><code>Dépenses sur la zone = 7 200 000 – 864 000 + 360 000</code>Dépenses sur la zone = <span class="resultat">6 696 000 €</span></div>
+        <div class="corr-line"><code>Montant vers la concurrence = 6 696 000 × 0,85</code>Montant vers la concurrence = <span class="resultat">5 691 600 €</span></div>
+        <div class="corr-line"><code>CA prévisionnel = 6 696 000 – 5 691 600</code>CA prévisionnel = <span class="resultat">1 004 400 €</span></div>
+      </div>
+    </details>
+  </section>
+
+  <section class="exo">
+    <span class="exo-tag">Question 2</span>
+    <h3>Concluez sur la faisabilité du projet</h3>
+    <p style="color:var(--ink-soft);font-size:0.93rem;margin-top:-6px;">Comparez le CA prévisionnel obtenu au seuil de rentabilité fixé par le franchisé, puis rédigez votre conclusion ci‑dessous.</p>
+
+    <textarea class="concl" placeholder="Votre conclusion..."></textarea>
+
+    <details class="correction">
+      <summary>Voir la correction</summary>
+      <div class="corr-body">
+        <div class="corr-final">
+          Le CA prévisionnel s'élève à <strong>1 004 400 €</strong>, un montant inférieur au seuil de rentabilité de <strong>1 100 000 €</strong> fixé par le franchisé. Le projet d'ouverture à Abbeville n'est donc pas viable en l'état : l'écart, proche de 96 000 €, invite à revoir les hypothèses (taille de la zone, offre proposée, politique de prix) avant toute décision d'implantation.
+        </div>
+      </div>
+    </details>
+  </section>
+
+  <footer>Zone de chalandise – calcul du chiffre d'affaires prévisionnel</footer>
+</div>
+
+</body>
+</html>
